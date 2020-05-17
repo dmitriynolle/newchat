@@ -18,13 +18,19 @@
         <Button HBox.hgrow="ALWAYS" text="Подключиться" onAction="#sendAuth" />
     </HBox>
 
+    <HBox fx:id="clientPanel">
+        <TextField HBox.hgrow="ALWAYS" fx:id="nickName" promptText="Сменить НИК" disable="true"/>
+        <TextField HBox.hgrow="ALWAYS" fx:id="newNickName" promptText="Новый NIC" onAction="#changeNick"/>
+        <Button HBox.hgrow="ALWAYS" text="Сменить" onAction="#changeNick" />
+    </HBox>
+
     <HBox VBox.vgrow="ALWAYS">
         <TextArea HBox.hgrow="ALWAYS" fx:id="textArea" editable="false"/>
         <ListView fx:id="clientsList" minWidth="200" maxWidth="200" />
     </HBox>
 
     <HBox fx:id="msgPanel">
-        <TextField fx:id="msgField" promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg"/>
+        <TextField fx:id="msgField" promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg" />
         <Button text="Отправить" onAction="#sendMsg"/>
     </HBox>
 </VBox>

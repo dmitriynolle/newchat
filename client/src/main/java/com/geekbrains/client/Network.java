@@ -50,6 +50,16 @@ public class Network {
         }
     }
 
+    public static boolean sendChangeNick(String newNick) {
+        try {
+            out.writeUTF("/change " + newNick);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void connect() {
         try {
             socket = new Socket("localhost", 8189);

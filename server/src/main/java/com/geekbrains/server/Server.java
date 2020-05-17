@@ -60,6 +60,12 @@ public class Server {
         broadcastClientsList();
     }
 
+    public void changeNick(ClientHandler clientHandler) {
+        clients.remove(clientHandler);
+        clients.add(clientHandler);
+        broadcastClientsList();
+    }
+
     public boolean isNickBusy(String nickname) {
         for (ClientHandler o : clients) {
             if (o.getNickname().equals(nickname)) {

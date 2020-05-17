@@ -1,6 +1,7 @@
 package com.geekbrains.client;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,10 +15,10 @@ public class Controller implements Initializable {
     TextArea textArea;
 
     @FXML
-    TextField msgField, loginField;
+    TextField msgField, loginField, nickName, newNickName;
 
     @FXML
-    HBox msgPanel, authPanel;
+    HBox msgPanel, authPanel, clientPanel;
 
     @FXML
     PasswordField passField;
@@ -34,6 +35,8 @@ public class Controller implements Initializable {
         authPanel.setManaged(!authenticated);
         msgPanel.setVisible(authenticated);
         msgPanel.setManaged(authenticated);
+        clientPanel.setVisible(authenticated);
+        clientPanel.setManaged(authenticated);
         clientsList.setVisible(authenticated);
         clientsList.setManaged(authenticated);
         if (!authenticated) {
@@ -59,6 +62,14 @@ public class Controller implements Initializable {
         Network.sendAuth(loginField.getText(), passField.getText());
         loginField.clear();
         passField.clear();
+        msgField.requestFocus();
+    }
+
+    public void changeNick() {
+        if (newNickName.getText() != ""){
+        if (Network.sendChangeNick(newNickName.getText())) {
+            newNickName.clear();
+        }}
     }
 
     public void sendMsg() {
@@ -102,4 +113,5 @@ public class Controller implements Initializable {
             }
         });
     }
+
 }

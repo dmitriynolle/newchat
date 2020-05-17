@@ -13,6 +13,7 @@ public class Main extends Application {
         primaryStage.setTitle("BrainsChat Client");
         primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();
+        primaryStage.setAlwaysOnTop(true);
     }
 
     public static void main(String[] args) {
