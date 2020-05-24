@@ -4,8 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class ClientHandler {
+public class ClientHandler{
     private String nickname;
     private Server server;
     private Socket socket;
@@ -16,13 +18,13 @@ public class ClientHandler {
         return nickname;
     }
 
-    public ClientHandler(Server server, Socket socket) {
+    public ClientHandler(Server server, Socket socket, ExecutorService executor) {
         try {
             this.server = server;
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
-            new Thread(() -> {
+            executor.execute(new Thread(() -> {
                 try {
                     while (true) {
                         String msg = in.readUTF();
@@ -70,7 +72,7 @@ public class ClientHandler {
                 } finally {
                     ClientHandler.this.disconnect();
                 }
-            }).start();
+            }));
         } catch (IOException e) {
             e.printStackTrace();
         }
