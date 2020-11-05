@@ -68,7 +68,6 @@ public class Controller implements Initializable {
         loginField.clear();
         passField.clear();
         msgField.requestFocus();
-        readMsgToLogFile();
     }
 
     public void changeNick() {
@@ -101,6 +100,7 @@ public class Controller implements Initializable {
             setAuthenticated(true);
             nickname = args[0].toString();
             nickName.setText(nickname);
+            readMsgToLogFile();
         });
 
         Network.setCallOnMsgReceived(args -> {
