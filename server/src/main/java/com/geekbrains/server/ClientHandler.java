@@ -29,11 +29,13 @@ public class ClientHandler {
                         // /auth login1 pass1
                         if (msg.startsWith("/auth ")) {
                             String[] tokens = msg.split("\\s");
-                            String nick = server.getAuthService().getNicknameByLoginAndPassword(tokens[1], tokens[2]);
+                            String nick = server.getAuthService().
+                                    getNicknameByLoginAndPassword(tokens[1], tokens[2]);
                             if (nick != null && !server.isNickBusy(nick)) {
                                 sendMsg("/authok " + nick);
                                 nickname = nick;
                                 server.subscribe(this);
+                                server.broadcastMsg(nickname + " присоединился к чату");
                                 break;
                             }
                         }
@@ -48,6 +50,16 @@ public class ClientHandler {
                             if(msg.startsWith("/w ")) {
                                 String[] tokens = msg.split("\\s", 3);
                                 server.privateMsg(this, tokens[1], tokens[2]);
+                            }
+                            if (msg.startsWith("/change ")){
+                                String[] tokens = msg.split("\\s");
+                                int chek = server.getAuthService().
+                                        changeNickname(nickname, tokens[1]);
+                                if (chek == 1){
+//                                    sendMsg("/authok " + tokens[2]);
+                                    nickname = tokens[1];
+                                    server.changeNick(this);
+                                }
                             }
                         } else {
                             server.broadcastMsg(nickname + ": " + msg);
