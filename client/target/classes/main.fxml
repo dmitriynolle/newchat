@@ -25,8 +25,8 @@
     </HBox>
 
     <HBox VBox.vgrow="ALWAYS">
-        <TextArea HBox.hgrow="ALWAYS" fx:id="textArea" editable="false"/>
-        <ListView fx:id="clientsList" minWidth="200" maxWidth="200" />
+        <TextArea HBox.hgrow="ALWAYS" fx:id="textArea" editable="false" wrapText="true"/>
+        <ListView fx:id="clientsList" minWidth="150" maxWidth="150" />
     </HBox>
 
     <HBox fx:id="msgPanel">

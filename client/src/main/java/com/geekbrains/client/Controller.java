@@ -7,8 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Controller implements Initializable {
     @FXML
@@ -63,6 +68,7 @@ public class Controller implements Initializable {
         loginField.clear();
         passField.clear();
         msgField.requestFocus();
+        readMsgToLogFile();
     }
 
     public void changeNick() {
@@ -94,6 +100,7 @@ public class Controller implements Initializable {
         Network.setCallOnAuthenticated(args -> {
             setAuthenticated(true);
             nickname = args[0].toString();
+            nickName.setText(nickname);
         });
 
         Network.setCallOnMsgReceived(args -> {
@@ -110,8 +117,35 @@ public class Controller implements Initializable {
                 }
             } else {
                 textArea.appendText(msg + "\n");
+                wrtMsgToLogFile(msg);
             }
         });
     }
 
+    private void wrtMsgToLogFile(String msg) {
+        try (FileWriter out = new FileWriter(nickname + "_log.txt", true)) {
+            if (! msg.contains("присоединился к чату"))
+            out.write(msg + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+            }
+        }
+
+
+    private void readMsgToLogFile() {
+        try (FileReader in = new FileReader(nickname + "_log.txt")) {
+            Scanner scan = new Scanner(in);
+            ArrayList<String> str = new ArrayList<>();
+            while (scan.hasNextLine()) {
+                str.add(scan.nextLine());
+            }
+            int i = 0;
+            if (str.size() > 100) i = str.size() - 100;
+            for (int j = i; j < str.size(); j++) {
+                textArea.appendText(str.get(j) + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
